@@ -15,4 +15,9 @@ public class UIController : MonoBehaviour
     {
         
     }
+
+    public void ToggleGameOverScreen()
+    {
+        
+    }
 }

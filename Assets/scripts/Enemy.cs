@@ -5,11 +5,10 @@ using UnityEngine;
 public class Enemy : Character
 {
     // Start is called before the first frame update
-
     protected override void Die()
     {
-        eventManager.RaiseOnZombieDead(this);
-        
+        ZombieController.GetInstance().RaiseOnZombieDeath(this);
+
         //Notify Zoombie manager
     }
 

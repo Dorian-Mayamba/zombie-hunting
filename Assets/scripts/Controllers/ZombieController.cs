@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,10 @@ public class ZombieController : MonoBehaviour
     public static ZombieController instance;
 
     private Enemy enemy;
+
+    public delegate void ZombieDeath(Enemy enemy);
+
+    public static event ZombieDeath OnDeath;
     void Start()
     {
         
@@ -27,8 +32,17 @@ public class ZombieController : MonoBehaviour
         }
     }
 
+    private void OnEnable() {
+        OnDeath+=OnZombieDead;
+    }
+
+    private void OnDisable() {
+        OnDeath-=OnZombieDead;
+    }
+
     public void OnZombieDead(Enemy enemy)
     {
+        Destroy(enemy.gameObject);
         //Deacrease the ennemy number
     }
 
@@ -50,6 +64,11 @@ public class ZombieController : MonoBehaviour
 
         return list;
     }
+
+    public void RaiseOnZombieDeath(Enemy enemy)
+    {
+        OnDeath?.Invoke(enemy);
+    }   
 
 
 }

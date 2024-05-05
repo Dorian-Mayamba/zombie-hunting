@@ -7,9 +7,11 @@ public class EventManager : MonoBehaviour
     public delegate void ZombieDead(Enemy enemy);
 
     public delegate void PlayerDead(Player player);
+
     public static event ZombieDead OnZombieDead;
 
     public static event PlayerDead OnPlayerDead;
+
     // Start is called before the first frame update
     void Start()
     {

@@ -21,8 +21,19 @@ public class PlayerMotor : MonoBehaviour
 
     private float crouchTimer = 0f;
 
+    private Camera camera;  
+
+    [SerializeField]
+    private GameObject bullet;
+
+    [SerializeField]
+    private Transform bulletSpawn;
+    private Rigidbody bulletRb;
+
     private void Start() {
         controller = GetComponent<CharacterController>();
+        camera = GetComponent<PlayerLook>().cam;
+        bulletRb = bullet.GetComponent<Rigidbody>();
     }
 
     public void Update() {
@@ -85,6 +96,9 @@ public class PlayerMotor : MonoBehaviour
 
     public void Shoot()
     {
+        GameObject bulletGO = Instantiate(bullet, bulletSpawn.position, transform.rotation);
+        bulletRb.AddForce(transform.forward * 800);
+        Destroy(bulletGO, 1);
         Debug.Log("Shoot clicked");
     }
 }

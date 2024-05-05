@@ -15,7 +15,7 @@ public abstract class Character : MonoBehaviour
         eventManager = GetComponent<EventManager>();
     }
 
-    protected void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         health-=amount;
 

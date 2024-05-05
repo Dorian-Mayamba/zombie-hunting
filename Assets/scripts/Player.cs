@@ -26,6 +26,11 @@ public class Player : Character
         get{return playerName;}
     }
 
+    public void Instantiate()
+    {
+        Instantiate(transform.gameObject);
+    }
+
     public int PlayerScore
     {
         set{playerScore = value;}
@@ -42,7 +47,7 @@ public class Player : Character
     {
         
         //Notify playerManager
-        eventManager.RaiseOnPlayerDead(this);
+        PlayerController.GetInstance().RaiseOnPlayerDead(this);
         
     }
 }
