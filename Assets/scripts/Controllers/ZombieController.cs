@@ -9,6 +9,7 @@ public class ZombieController : MonoBehaviour
 
     public static ZombieController instance;
 
+    [SerializeField]
     private Enemy enemy;
 
     public delegate void ZombieDeath(Enemy enemy);
@@ -42,6 +43,7 @@ public class ZombieController : MonoBehaviour
 
     public void OnZombieDead(Enemy enemy)
     {
+        PlayerController.GetInstance().UpdatePlayerScore(3);
         Destroy(enemy.gameObject);
         //Deacrease the ennemy number
     }

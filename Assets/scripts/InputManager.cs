@@ -13,8 +13,8 @@ public class InputManager : MonoBehaviour
     private PlayerLook playerLook;
 
     // Start is called before the first frame update
-    void Awake()
-    {
+
+    private void Awake() {
         playerActions = new PlayerActions();
         onFootActions = playerActions.onFoot;
         playerMotor = GetComponent<PlayerMotor>();

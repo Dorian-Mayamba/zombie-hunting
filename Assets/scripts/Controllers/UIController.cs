@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    [SerializeField]
+    private GameObject gameOverScreen;
     void Start()
     {
         
@@ -16,8 +17,10 @@ public class UIController : MonoBehaviour
         
     }
 
-    public void ToggleGameOverScreen()
+    public void DisplayGameOverScreen()
     {
-        
+        gameOverScreen.SetActive(true);
     }
+
+    
 }

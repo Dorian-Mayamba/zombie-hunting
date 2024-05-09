@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Enemy : Character
 {
-    // Start is called before the first frame update
+    // Start is called before the first frame updat
     protected override void Die()
     {
         ZombieController.GetInstance().RaiseOnZombieDeath(this);
@@ -12,19 +13,13 @@ public class Enemy : Character
         //Notify Zoombie manager
     }
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public GameObject SpawnEnnemy()
     {
-        return Instantiate(transform.gameObject, transform.parent, false);
+
+        Transform[] spawnPoints = GameController.GetInstance().spawnPoints;
+        Debug.Log(spawnPoints.Length);
+        int randomIndex = Random.Range(0, spawnPoints.Length);
+        Transform spawnPoint = spawnPoints[randomIndex];
+        return Instantiate(transform.gameObject, spawnPoint.position, Quaternion.identity, spawnPoint);
     }
 }

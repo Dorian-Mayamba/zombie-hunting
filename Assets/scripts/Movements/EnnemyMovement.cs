@@ -21,18 +21,20 @@ public class EnnemyMovement : MonoBehaviour
     //State change
     [SerializeField] private float sightRange, attackRange;
 
-    private bool playerInSight, playerInAttack;
+    [SerializeField]
+    private GameObject bullet;
+
+    [SerializeField]
+    private Transform bulletPoint;
+
+    private Rigidbody rb;
+
     private void Awake()
     {
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         agent = GetComponent<NavMeshAgent>();
-        //target = PlayerController.GetInstance().GetPlayer().transform;
-        target = GameObject.Find("Player")?.transform;
+        rb = bullet.GetComponent<Rigidbody>();
+        target = PlayerController.GetInstance().playerInstance.transform;
+        
         if(target !=null)
             Debug.Log("player target found");
     }
@@ -69,7 +71,7 @@ public class EnnemyMovement : MonoBehaviour
             SearchDest();
         }
 
-        if(walkPointSet) agent.SetDestination(destPoint);
+        if(walkPointSet && agent.isActiveAndEnabled) agent.SetDestination(destPoint);
         if(Vector3.Distance(transform.position, destPoint) < 10) walkPointSet = false;
 
     }
@@ -84,6 +86,9 @@ public class EnnemyMovement : MonoBehaviour
     {
         Debug.Log("Attacking player");
         FaceTarget();
+        GameObject go = Instantiate(bullet, bulletPoint.position, transform.rotation);
+        rb.AddForce(transform.forward * 800);
+        Destroy(go, 1);
         //Handle attack animation
     }
     private void SearchDest()

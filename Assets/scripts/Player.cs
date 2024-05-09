@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,15 @@ using UnityEngine;
 public class Player : Character
 {
     // Start is called before the first frame update
-
     private static Player instance;
 
     private int playerScore;
 
     private string playerName;
+
+    [SerializeField] private HealthBar healthBar;
+
+    [SerializeField] private const float MAX_HEALTH = 400f;
     private void Awake() {
         if(instance != this || instance == null)
         {
@@ -26,9 +30,29 @@ public class Player : Character
         get{return playerName;}
     }
 
-    public void Instantiate()
+    public float Health{
+        get{return health;}
+        set{health = value;}
+    }
+
+    public void ResetScore()
     {
-        Instantiate(transform.gameObject);
+        PlayerScore = 0;
+    }
+
+    public void Init(string playerName)
+    {
+        health = MAX_HEALTH;
+
+        PlayerName = playerName;
+        PlayerScore = 0;
+    }
+
+    public GameObject Instantiate()
+    {
+        healthBar = GameController.GetInstance().healthBar;
+        healthBar.InitHealth(MAX_HEALTH);
+        return Instantiate(transform.gameObject);
     }
 
     public int PlayerScore
@@ -44,10 +68,13 @@ public class Player : Character
     }
 
     protected override void Die()
-    {
-        
-        //Notify playerManager
+    {   
         PlayerController.GetInstance().RaiseOnPlayerDead(this);
-        
+    }
+
+    override public void TakeDamage(float amount)
+    {
+        base.TakeDamage(amount);
+        healthBar.TakeDamage(amount);
     }
 }

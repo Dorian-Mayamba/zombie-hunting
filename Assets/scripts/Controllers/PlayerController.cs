@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -13,6 +14,10 @@ public class PlayerController : MonoBehaviour
     private delegate void PlayerDead(Player player);
 
     private static event PlayerDead OnPlayerDeath;
+
+    public GameObject playerInstance;
+
+    public GameObject playerBarGo;
 
     private void Awake() {
         if (instance == null || (instance != null && instance != this))
@@ -50,20 +55,24 @@ public class PlayerController : MonoBehaviour
 
     public void InitPlayer(string playerName)
     {
-        player.PlayerName = playerName;
+        player.Init(playerName);
     }
 
     public void OnPlayerDead(Player player)
     {
-        Destroy(player.gameObject);
         GameController.GetInstance().RaiseGameStateChange(GameController.GameState.GAME_OVER);
     }
 
     public void UpdatePlayerScore(int point)
     {
         player.PlayerScore += point;
+        GameController.GetInstance().UpdatePlayerScore(player.PlayerScore);
     }
 
+    public void ResetPlayerScore()
+    {
+        player.ResetScore();
+    }
     public static PlayerController GetInstance()
     {
         return instance;
@@ -72,6 +81,11 @@ public class PlayerController : MonoBehaviour
     public Player GetPlayer()
     {
         return player;
+    }
+
+    public void InstantiatePlayer()
+    {
+       playerInstance =  player.Instantiate();
     }
 
     public void RaiseOnPlayerDead(Player player)
